@@ -4,15 +4,19 @@ module ass_i2c_slave_serdes #(
 	input  clk, 
 	input  rstb,
 	input  scl,
-	input  sda,
-	input  [7:0] tx_data_in,
+	input  sda,	
+	input  [7:0] tx_rdata_in,
+	input  rx_full,
+	input  tx_empty,
+
 
 	output start,
 	output stop,
-	output rdy,
+	output rx_wen,
 	output req,
+	output tx_ren,
 	output stop_nack,
-	output reg [7:0] rx_data,
+	output reg [7:0] rx_wdata,
 	output sda_oe
 );
 
@@ -42,32 +46,29 @@ edge_detecter u_edge(
 //=============================================================================
 
 //=============================================================================
-wire rx_en; //rx랑 스타트 합치기
-
-reg  [7:0] tx_data;
-
 // register block
+wire rx_en;
+reg  [7:0] tx_rdata;
 
 // I2C to bit : write data register
 always @(posedge clk or negedge rstb) begin
     if (!rstb)
-        rx_data <= 8'b0;
+        rx_wdata <= 8'b0;
     else if (rx_en)
-        rx_data <= {rx_data[6:0], sda_d2[1]};
+        rx_wdata <= {rx_wdata[6:0], sda_d2[1]};
 end
 
 // bit to I2C
 always @(posedge clk or negedge rstb) begin
     if (!rstb)
-        tx_data <= 8'b0;
+        tx_rdata <= 8'b0;
     else if (req)
-        tx_data <= tx_data_in;
+        tx_rdata <= tx_rdata_in;
 end
 //=============================================================================
 wire init_0;
 wire cnt_inc;
 wire cnt_max;
-wire cnt_scl_bit;
 wire [3:0] cnt_scl;
 
 ass_i2c_slave_scl_counter u_scl_counter(
@@ -76,9 +77,7 @@ ass_i2c_slave_scl_counter u_scl_counter(
 	.init_0 (init_0),
 	.cnt_inc(cnt_inc),
 	.cnt_max(cnt_max),
-	
-	.cnt_scl(cnt_scl),
-	.cnt_scl_bit(cnt_scl_bit)
+	.cnt_scl(cnt_scl)
 );
 //=============================================================================
 ass_i2c_slave_serdes_fsm #(.device_address(device_address)) u_serdes_fsm(
@@ -88,18 +87,20 @@ ass_i2c_slave_serdes_fsm #(.device_address(device_address)) u_serdes_fsm(
 	.stop	    (stop),
 	.scl_rise   (scl_rise),
 	.scl_fall   (scl_fall),
-	.rx_data    (rx_data),
-	.tx_data    (tx_data),
+	.rx_wdata   (rx_wdata),
+	.tx_rdata   (tx_rdata),
 	.ack_bit    (sda_d2[1]),
 	.cnt_scl    (cnt_scl),
-	.cnt_scl_bit(cnt_scl_bit),
+	.rx_full    (rx_full),
+	.tx_empty   (tx_empty),
 
+	.tx_ren 	(tx_ren),
 	.stop_nack  (stop_nack),
 	.cnt_inc    (cnt_inc),
 	.cnt_max    (cnt_max),
 	.init_0     (init_0),
 	.rx_en      (rx_en),
-	.rdy	    (rdy), 
+	.rx_wen	    (rx_wen), 
 	.req	    (req),
 	.sda_oe	    (sda_oe)
 );

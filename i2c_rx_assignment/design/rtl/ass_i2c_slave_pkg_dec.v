@@ -1,70 +1,81 @@
 module ass_i2c_slave_pkg_dec (
 	input clk,  
 	input rstb,
-	input rdy,
 	input req,
 	input start,
 	input stop_nack,
-	input [7:0] rx_data,
+	input rx_empty,
+	input tx_full,
+	input [7:0] rx_rdata,
+	input [7:0] rdata,
 	
-	output reg [7:0] addr,
+
+	output tx_wen,
+	output rx_ren,
+	output reg  [7:0] addr,
+	output wire [7:0] wdata,
+	output wire [7:0] tx_wdata,
 	output we
 );
 //=============================================================================
-//FSM
-localparam IDLE  = 2'd0;
-localparam START = 2'd1;
-localparam READ  = 2'd2;
-localparam WRITE = 2'd3;
+wire req_sync;
+wire start_sync;
+wire stop_sync;
 
-reg [1:0] cstate;
-reg [1:0] nstate;
-//=============================================================================
-// current state logic
-always @(posedge clk or negedge rstb) begin
-	if(~rstb) begin
-		cstate <= IDLE;
-	end else begin
-		cstate <= nstate;
-	end
-end
-//=============================================================================
-// next state logic
-always @(*) begin
-	nstate = cstate;
+two_level_1bit_synchronizer u_2_level_sync_req(
+    .clk 	 (clk),
+    .data_in (req),
+    .data_out(req_sync)
+);
 
-	// exit READ state
-	if(stop_nack) begin
-		nstate = IDLE;
-	end
-	else if(start) begin
-		nstate = START;
-	end 
-	else begin
-		case(cstate)
-			IDLE  : nstate = IDLE;
-			START : nstate = req ? READ : (rdy ? WRITE : START);
-			READ  : nstate = READ;
-			WRITE : nstate = WRITE;
-		endcase
-	end
-end
+two_level_1bit_synchronizer u_2_level_sync_start(
+    .clk 	 (clk),
+    .data_in (start),
+    .data_out(start_sync)
+);
+
+two_level_1bit_synchronizer u_2_level_sync_stop(
+    .clk 	 (clk),
+    .data_in (stop_nack),
+    .data_out(stop_sync)
+);
 //=============================================================================
-// output logic
-assign addr_inc = req || (rdy && (cstate == WRITE));
-assign we       = (cstate == WRITE) && rdy;
+wire addr_inc;
+wire waddr_en;
+
+ass_i2c_slave_pkg_dec_fsm u_pkg_fsm(
+	.clk	  (clk),  
+	.rstb	  (rstb),
+	.rx_empty (rx_empty),
+	.req	  (req_sync),
+	.start	  (start_sync),
+	.stop_nack(stop_sync),
+	.tx_full  (tx_full),
+
+	.rx_ren   (rx_ren),
+	.tx_wen   (tx_wen),
+	.addr_inc (addr_inc),
+	.waddr_en (waddr_en),
+	.we  	  (we)
+);
 //=============================================================================
 // addr setting logic
+
 always @(posedge clk or negedge rstb) begin
     if (~rstb)
         addr <= 8'b0;
-    else if ((cstate == START) && rdy) begin
-        addr <= rx_data;
+    else if (waddr_en) begin
+        addr <= rx_rdata;
     end    
     else if (addr_inc) begin
         addr <= addr + 1'b1;
 	end
 end
+
+//wdata register
+
+assign wdata    = we ? rx_rdata : rdata;
+assign tx_wdata = tx_wen ? wdata : 8'b0;
 //=============================================================================
 
 endmodule //: ass_i2c_slave_pkg_dec

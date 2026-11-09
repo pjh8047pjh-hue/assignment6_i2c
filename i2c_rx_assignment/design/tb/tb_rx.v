@@ -55,7 +55,7 @@ initial begin
 	#50;  // Set start address to read as 0xA
 	u_i2c_master_top.start({dev_adr, 1'b0}         );  // (start with write)
 	u_i2c_master_top.stop (8'h0a, 1'b0, 1'b0, rxr  );  // (write addr and stop)
-	
+
 	// Read Data
 	u_i2c_master_top.start({dev_adr, 1'b1}         ); // (start with read)
 	u_i2c_master_top.byte (8'h00, 1'b1, 1'b0, rdata); // (read data and ack )
@@ -97,7 +97,8 @@ end //
 //******************************************************************
 ass_i2c_slave #(.device_address(dev_adr)) dut (
 
-.clk  (clk    ),
+.clk_1(clk    ),
+.clk_2(clk    ),
 .rstb (reset_n),
 
 .scl  (scl    ),

@@ -6,20 +6,22 @@ module ass_i2c_slave_serdes_fsm #(
 	input start,
 	input stop,
 	input scl_rise,
-	input scl_fall,
-	input [7:0] rx_data,
-	input [7:0] tx_data,
+	input scl_fall,	
 	input ack_bit,
+	input rx_full,
+	input tx_empty,
+
+	input [7:0] rx_wdata,
+	input [7:0] tx_rdata,
 	input [3:0] cnt_scl,
-	input cnt_scl_bit,
 	
-	//output init,	
+	output tx_ren,
 	output stop_nack,
 	output cnt_inc,
 	output cnt_max,
 	output init_0,
 	output rx_en,
-	output rdy, 
+	output rx_wen, 
 	output req,
 	output reg sda_oe
 );
@@ -47,8 +49,8 @@ end
 
 //=============================================================================
 // next state logic
-wire addr_match = (rx_data[7:1] == device_address);
-wire mode       = rx_data[0];
+wire addr_match = (rx_wdata[7:1] == device_address);
+wire mode       = rx_wdata[0];
 wire update_en  = (scl_rise && cnt_max);
 
 always @(*) begin
@@ -61,7 +63,7 @@ always @(*) begin
     end else begin
         case (cstate)
             IDLE    : nstate = IDLE;
-			CHECK   : nstate = update_en ? (addr_match ? (mode ? READ : START) : IDLE) : CHECK;
+			CHECK   : nstate = update_en ? (addr_match ? (mode ? READ : WRITE) : IDLE) : CHECK;
 			START   : nstate = update_en ? WRITE : START;
             READ    : nstate = update_en ? (stop_nack ? IDLE : READ) : READ;
             WRITE   : nstate = WRITE;
@@ -82,8 +84,9 @@ always @(posedge clk or negedge rstb) begin
         cnt_en <= 1'b1;
 end
 //=============================================================================
-// output comb logic
+wire cnt_scl_bit = (cnt_scl == 4'd7);
 
+// output comb logic
 // cnt control logic
 assign init_0  = start || stop;
 assign cnt_max = (cnt_scl == 4'd8);
@@ -99,15 +102,16 @@ assign rx_en = scl_rise && ~cnt_max && ~start &&
 assign stop_nack = stop || ((cstate == READ) && update_en && ack_bit);
 
 // serdes to pkg decoder logic
-assign rdy = scl_fall && cnt_scl_bit && 
+assign rx_wen = scl_fall && cnt_scl_bit && 
 			 ((cstate == START) || (cstate == WRITE));
 
-assign req = scl_fall && cnt_scl_bit && (cstate == READ);
+assign req = scl_fall && cnt_max && (nstate == READ);
+assign tx_ren = scl_fall && cnt_max && (cstate == READ) && ~tx_empty;
 //=============================================================================
 
 //=============================================================================
 // sda_oe logic (Sequential)
-// cnt_scl_bit = (cnt_scl < 4'd7)
+
 always @(posedge clk or negedge rstb) begin
 	if(~rstb) begin
 		sda_oe <= 1'b0;
@@ -117,7 +121,7 @@ always @(posedge clk or negedge rstb) begin
 		case(cstate)
 			CHECK  : sda_oe <= cnt_scl_bit && addr_match;
 			START  : sda_oe <= cnt_scl_bit;
-			READ   : sda_oe <= cnt_max ? ~tx_data[7] : ((cnt_scl  < 4'd7) ? ~tx_data [6 - cnt_scl] : 1'b0);
+			READ   : sda_oe <= cnt_max ? ~tx_rdata[7] : ((cnt_scl  < 4'd7) ? ~tx_rdata [6 - cnt_scl] : 1'b0);
 			WRITE  : sda_oe <= cnt_scl_bit;
 			default: sda_oe <= 1'b0;
 		endcase

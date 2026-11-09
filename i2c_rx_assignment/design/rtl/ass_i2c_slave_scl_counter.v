@@ -5,8 +5,7 @@ module ass_i2c_slave_scl_counter (
 	input cnt_inc,
 	input cnt_max,
 	
-	output reg [3:0] cnt_scl,
-	output cnt_scl_bit
+	output reg [3:0] cnt_scl
 );
 
 // cnt_scl
@@ -22,6 +21,5 @@ always @(posedge clk or negedge rstb) begin
 	end
 end
 
-assign cnt_scl_bit = (cnt_scl == 4'd7);
 
 endmodule //: scl_counter
