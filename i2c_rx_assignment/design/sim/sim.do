@@ -13,7 +13,7 @@ vlog ../rtl/ass_i2c_slave_pkg_dec.v
 vlog ../rtl/ass_i2c_slave_pkg_dec_fsm.v
 vlog ../rtl/ass_i2c_slave_rf_v2.v
 vlog ../rtl/ass_i2c_slave.v
-vlog ../tb/tb_rx.v
+vlog ../tb/hojunjung_tv_tb_rx.v
 vlog ../rtl/generic_dpram.v
 vlog ../rtl/generic_fifo_dc.v
 vlog ../rtl/two_level_synchronizer.v

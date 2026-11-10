@@ -10,7 +10,7 @@ z2
 cModel Technology
 Z0 dC:/Work/assignment_6/i2c_rx_assignment/design/sim
 vass_i2c_slave
-Z1 !s110 1794216796
+Z1 !s110 1794284582
 !i10b 1
 !s100 W`FBVkiTDDDWd13Vl2?de1
 Z2 !s11b Dg1SIo80bB@j0V0VzS_@n1
@@ -20,19 +20,19 @@ R0
 w1794210981
 8../rtl/ass_i2c_slave.v
 F../rtl/ass_i2c_slave.v
-!i122 1738
+!i122 1903
 L0 3 122
 Z4 OV;L;2020.1;71
 r1
 !s85 0
 31
-Z5 !s108 1794216795.000000
+Z5 !s108 1794284582.000000
 !s107 ../rtl/ass_i2c_slave.v|
 !s90 -reportprogress|300|../rtl/ass_i2c_slave.v|
 !i113 1
 Z6 tCvgOpt 0
 vass_i2c_slave_pkg_dec
-Z7 !s110 1794216795
+R1
 !i10b 1
 !s100 F[j;^nQ;C1gn>LVYYNi9i0
 R2
@@ -42,19 +42,19 @@ R0
 w1794210013
 8../rtl/ass_i2c_slave_pkg_dec.v
 F../rtl/ass_i2c_slave_pkg_dec.v
-!i122 1735
+!i122 1900
 L0 1 81
 R4
 r1
 !s85 0
 31
-R5
+Z7 !s108 1794284581.000000
 !s107 ../rtl/ass_i2c_slave_pkg_dec.v|
 !s90 -reportprogress|300|../rtl/ass_i2c_slave_pkg_dec.v|
 !i113 1
 R6
 vass_i2c_slave_pkg_dec_fsm
-R7
+R1
 !i10b 1
 !s100 60]zS;0mh>Pjoe8_G4ARn0
 R2
@@ -64,7 +64,7 @@ R0
 w1794209554
 8../rtl/ass_i2c_slave_pkg_dec_fsm.v
 F../rtl/ass_i2c_slave_pkg_dec_fsm.v
-!i122 1736
+!i122 1901
 L0 1 65
 R4
 r1
@@ -98,7 +98,7 @@ r1
 !i113 1
 R6
 vass_i2c_slave_rf_v2
-R7
+R1
 !i10b 1
 !s100 2X1:Bkm143Q7<hoLRDEJ_0
 R2
@@ -108,7 +108,7 @@ R0
 w1793765434
 8../rtl/ass_i2c_slave_rf_v2.v
 F../rtl/ass_i2c_slave_rf_v2.v
-!i122 1737
+!i122 1902
 R9
 R4
 r1
@@ -164,7 +164,7 @@ R10
 !i113 1
 R6
 vass_i2c_slave_scl_counter
-R7
+Z11 !s110 1794284581
 !i10b 1
 !s100 mhGd6h>WnIC_MzHb_88A93
 R2
@@ -174,63 +174,63 @@ R0
 w1794135622
 8../rtl/ass_i2c_slave_scl_counter.v
 F../rtl/ass_i2c_slave_scl_counter.v
-!i122 1733
+!i122 1898
 L0 1 25
 R4
 r1
 !s85 0
 31
-R5
+R7
 !s107 ../rtl/ass_i2c_slave_scl_counter.v|
 !s90 -reportprogress|300|../rtl/ass_i2c_slave_scl_counter.v|
 !i113 1
 R6
 vass_i2c_slave_serdes
-R7
+R11
 !i10b 1
-!s100 gHSYY[EAg1C`VKMIo=@oX0
+!s100 @`zVM:aIl^YOZaJgIM[7;0
 R2
-I_Kn4HJ29NdUU2@AjNB8^h3
+I`P9ze:zN`Ug3H8LV3^akT1
 R3
 R0
-w1794204006
+w1794281993
 8../rtl/ass_i2c_slave_serdes.v
 F../rtl/ass_i2c_slave_serdes.v
-!i122 1734
+!i122 1899
 L0 1 109
 R4
 r1
 !s85 0
 31
-R5
+R7
 !s107 ../rtl/ass_i2c_slave_serdes.v|
 !s90 -reportprogress|300|../rtl/ass_i2c_slave_serdes.v|
 !i113 1
 R6
 vass_i2c_slave_serdes_fsm
-R7
+R11
 !i10b 1
-!s100 bP5i^[;0IhQJ9T[:P]jfk2
+!s100 >Y40EajARz;LOBWVhAT2z1
 R2
-I?TGS34V_Ib5cNn>30SgUz1
+IFi50Gj>Q5XOebNgZO`0nY2
 R3
 R0
-w1794216783
+w1794282689
 8../rtl/ass_i2c_slave_serdes_fsm.v
 F../rtl/ass_i2c_slave_serdes_fsm.v
-!i122 1732
-L0 1 132
+!i122 1897
+L0 1 126
 R4
 r1
 !s85 0
 31
-Z11 !s108 1794216794.000000
+R7
 !s107 ../rtl/ass_i2c_slave_serdes_fsm.v|
 !s90 -reportprogress|300|../rtl/ass_i2c_slave_serdes_fsm.v|
 !i113 1
 R6
 vedge_detecter
-Z12 !s110 1794216794
+R11
 !i10b 1
 !s100 XgS<5WU1m8RKzMJ`4]0EL0
 R2
@@ -240,13 +240,13 @@ R0
 w1793782332
 8../rtl/edge_detecter.v
 F../rtl/edge_detecter.v
-!i122 1731
+!i122 1896
 L0 1 39
 R4
 r1
 !s85 0
 31
-R11
+R7
 !s107 ../rtl/edge_detecter.v|
 !s90 -reportprogress|300|../rtl/edge_detecter.v|
 !i113 1
@@ -262,19 +262,19 @@ R0
 w1793865005
 8../rtl/generic_dpram.v
 F../rtl/generic_dpram.v
-!i122 1740
+!i122 1905
 L0 99 248
 R4
 r1
 !s85 0
 31
-Z13 !s108 1794216796.000000
+R5
 !s107 ../rtl/generic_dpram.v|
 !s90 -reportprogress|300|../rtl/generic_dpram.v|
 !i113 1
 R6
 vgeneric_fifo_dc
-R1
+Z12 !s110 1794284583
 !i10b 1
 !s100 c=CWz<J[3`TLm1;hh?UCM3
 R2
@@ -284,19 +284,19 @@ R0
 w1794136036
 8../rtl/generic_fifo_dc.v
 F../rtl/generic_fifo_dc.v
-!i122 1741
+!i122 1906
 L0 134 146
 R4
 r1
 !s85 0
 31
-R13
+R5
 !s107 ../rtl/generic_fifo_dc.v|
 !s90 -reportprogress|300|../rtl/generic_fifo_dc.v|
 !i113 1
 R6
 vi2c_master_bit_ctrl
-R12
+!s110 1794284580
 !i10b 1
 !s100 =l5z^YFeHMHAjQAUC3lOc1
 R2
@@ -306,19 +306,19 @@ R0
 w1465289192
 8../tb/i2c_master/i2c_master_bit_ctrl.v
 F../tb/i2c_master/i2c_master_bit_ctrl.v
-!i122 1728
+!i122 1893
 L0 51 406
 R4
 r1
 !s85 0
 31
-R11
+Z13 !s108 1794284580.000000
 !s107 ../tb/i2c_master/i2c_master_bit_ctrl.v|
 !s90 -reportprogress|300|../tb/i2c_master/i2c_master_bit_ctrl.v|
 !i113 1
 R6
 vi2c_master_byte_ctrl
-R12
+R11
 !i10b 1
 !s100 HI3XTkRK1P397C`?blh>n3
 R2
@@ -328,19 +328,19 @@ R0
 w1465289198
 8../tb/i2c_master/i2c_master_byte_ctrl.v
 F../tb/i2c_master/i2c_master_byte_ctrl.v
-!i122 1729
+!i122 1894
 L0 12 270
 R4
 r1
 !s85 0
 31
-R11
+R13
 !s107 ../tb/i2c_master/i2c_master_byte_ctrl.v|
 !s90 -reportprogress|300|../tb/i2c_master/i2c_master_byte_ctrl.v|
 !i113 1
 R6
 vi2c_master_top
-R12
+R11
 !i10b 1
 !s100 inA_GdF`^ZjoF=?dJdj;f0
 R2
@@ -350,13 +350,13 @@ R0
 w1601187980
 8../tb/i2c_master/i2c_master_top.v
 F../tb/i2c_master/i2c_master_top.v
-!i122 1730
+!i122 1895
 L0 6 144
 R4
 r1
 !s85 0
 31
-R11
+R7
 !s107 ../tb/i2c_master/i2c_master_top.v|
 !s90 -reportprogress|300|../tb/i2c_master/i2c_master_top.v|
 !i113 1
@@ -364,27 +364,27 @@ R6
 vtb_rx
 R1
 !i10b 1
-!s100 9zkN]ozAMEOd5=UX4Sj3i2
+!s100 66>j6h]X33E0UeF;g9K<83
 R2
-IV?<Q@gjLCO?BOCgC8F=ae2
+IzIWS[c0`59Fmm;ml_Cj7T2
 R3
 R0
-w1794136413
-8../tb/tb_rx.v
-F../tb/tb_rx.v
-!i122 1739
-L0 4 106
+w1794284577
+8../tb/hojunjung_tv_tb_rx.v
+F../tb/hojunjung_tv_tb_rx.v
+!i122 1904
+L0 4 152
 R4
 r1
 !s85 0
 31
-R13
-!s107 ../tb/tb_rx.v|
-!s90 -reportprogress|300|../tb/tb_rx.v|
+R5
+!s107 ../tb/hojunjung_tv_tb_rx.v|
+!s90 -reportprogress|300|../tb/hojunjung_tv_tb_rx.v|
 !i113 1
 R6
 vtwo_level_1bit_synchronizer
-R1
+R12
 !i10b 1
 !s100 Rzn3]ESoYTeU87aF3ADmX0
 R2
@@ -394,13 +394,13 @@ R0
 w1794136079
 8../rtl/two_level_synchronizer.v
 F../rtl/two_level_synchronizer.v
-!i122 1742
+!i122 1907
 L0 1 16
 R4
 r1
 !s85 0
 31
-R13
+!s108 1794284583.000000
 !s107 ../rtl/two_level_synchronizer.v|
 !s90 -reportprogress|300|../rtl/two_level_synchronizer.v|
 !i113 1

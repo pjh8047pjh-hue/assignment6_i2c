@@ -27,10 +27,9 @@ module ass_i2c_slave_serdes_fsm #(
 );
 
 localparam IDLE  = 3'b000;
-localparam CHECK = 3'b001; 
-localparam START = 3'b010;
-localparam READ  = 3'b011;
-localparam WRITE = 3'b100;
+localparam CHECK = 3'b001;
+localparam READ  = 3'b010;
+localparam WRITE = 3'b011;
 
 //=============================================================================
 //current state logic 
@@ -64,8 +63,7 @@ always @(*) begin
         case (cstate)
             IDLE    : nstate = IDLE;
 			CHECK   : nstate = update_en ? (addr_match ? (mode ? READ : WRITE) : IDLE) : CHECK;
-			START   : nstate = update_en ? WRITE : START;
-            READ    : nstate = update_en ? (stop_nack ? IDLE : READ) : READ;
+            READ    : nstate = update_en ? (stop_nack	 ? IDLE : READ) : READ;
             WRITE   : nstate = WRITE;
             default : nstate = IDLE;
         endcase
@@ -94,18 +92,15 @@ assign cnt_inc = cnt_en && (cstate != IDLE) && scl_fall;
 
 // rx shift tick signal
 assign rx_en = scl_rise && ~cnt_max && ~start &&
-              ((cstate == CHECK) ||
-               (cstate == START) ||
-               (cstate == WRITE));
+              ((cstate == CHECK) || (cstate == WRITE));
 
 // ack logic
 assign stop_nack = stop || ((cstate == READ) && update_en && ack_bit);
 
 // serdes to pkg decoder logic
-assign rx_wen = scl_fall && cnt_scl_bit && 
-			 ((cstate == START) || (cstate == WRITE));
+assign rx_wen = scl_fall && cnt_scl_bit && (cstate == WRITE);
 
-assign req = scl_fall && cnt_max && (nstate == READ);
+assign req = scl_rise && (nstate == READ) && cnt_max;
 assign tx_ren = scl_fall && cnt_max && (cstate == READ) && ~tx_empty;
 //=============================================================================
 
@@ -120,7 +115,6 @@ always @(posedge clk or negedge rstb) begin
 	end else if (scl_fall) begin
 		case(cstate)
 			CHECK  : sda_oe <= cnt_scl_bit && addr_match;
-			START  : sda_oe <= cnt_scl_bit;
 			READ   : sda_oe <= cnt_max ? ~tx_rdata[7] : ((cnt_scl  < 4'd7) ? ~tx_rdata [6 - cnt_scl] : 1'b0);
 			WRITE  : sda_oe <= cnt_scl_bit;
 			default: sda_oe <= 1'b0;

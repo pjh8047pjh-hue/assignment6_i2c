@@ -61,7 +61,6 @@ generic_fifo_dc u_rx_fifo(
     .re     (rx_ren),
     .full   (rx_full), 
     .empty  (rx_empty), 
-    .full_n (), 
     .empty_n(), 
     .level  () 
 );
@@ -92,23 +91,30 @@ wire [7:0] addr;
 wire [7:0] rdata;
 wire [7:0] wdata;
 
-ass_i2c_slave_pkg_dec u_pkg_dec(
-    .clk      (clk_2),  
-    .rstb     (rstb),
-    .req      (req),
-    .start    (start),
-    .stop_nack(stop_nack),
-    .tx_full  (tx_full),
-    .rx_empty (rx_empty),
-    .rx_rdata (rx_rdata),
-    .rdata    (rdata),
+wire ack_out_req;
+wire ack_out_start;
+wire ack_out_stop;
 
-    .tx_wen   (tx_wen),
-    .rx_ren   (rx_ren),
-    .addr     (addr),
-    .wdata    (wdata),
-    .tx_wdata (tx_wdata),
-    .we       (we)
+ass_i2c_slave_pkg_dec u_pkg_dec(
+    .clk          (clk_2),  
+    .rstb         (rstb),
+    .req          (req),
+    .start        (start),
+    .stop_nack    (stop_nack),
+    .tx_full      (tx_full),
+    .rx_empty     (rx_empty),
+    .rx_rdata     (rx_rdata),
+    .rdata        (rdata),
+
+    .ack_out_req  (ack_out_req),
+    .ack_out_start(ack_out_start),
+    .ack_out_stop (ack_out_stop),
+    .tx_wen       (tx_wen),
+    .rx_ren       (rx_ren),
+    .addr         (addr),
+    .wdata        (wdata),
+    .tx_wdata     (tx_wdata),
+    .we           (we)
 );
 //=============================================================================
 

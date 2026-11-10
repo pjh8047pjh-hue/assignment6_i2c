@@ -10,6 +10,10 @@ module ass_i2c_slave_pkg_dec (
 	input [7:0] rdata,
 	
 
+
+	output ack_out_req,
+	output ack_out_start,
+	output ack_out_stop,
 	output tx_wen,
 	output rx_ren,
 	output reg  [7:0] addr,
@@ -22,22 +26,27 @@ wire req_sync;
 wire start_sync;
 wire stop_sync;
 
-two_level_1bit_synchronizer u_2_level_sync_req(
-    .clk 	 (clk),
-    .data_in (req),
-    .data_out(req_sync)
+one_bit_cdc_cntl u_cdc_req(
+    .clk	 (clk), 
+    .rstb	 (rstb),
+    .cntl_in (req),
+    .ack_out (ack_out_req),
+    .cntl_out(req_sync)
 );
 
-two_level_1bit_synchronizer u_2_level_sync_start(
-    .clk 	 (clk),
-    .data_in (start),
-    .data_out(start_sync)
-);
+one_bit_cdc_cntl u_cdc_start(
+    .clk	 (clk), 
+    .rstb	 (rstb),
+    .cntl_in (start),
+    .ack_out (ack_out_start),
+    .cntl_out(start_sync)
 
-two_level_1bit_synchronizer u_2_level_sync_stop(
-    .clk 	 (clk),
-    .data_in (stop_nack),
-    .data_out(stop_sync)
+);one_bit_cdc_cntl u_cdc_stop(
+    .clk	 (clk), 
+    .rstb	 (rstb),
+    .cntl_in (stop),
+    .ack_out (ack_out_stop),
+    .cntl_out(stop_sync)
 );
 //=============================================================================
 wire addr_inc;

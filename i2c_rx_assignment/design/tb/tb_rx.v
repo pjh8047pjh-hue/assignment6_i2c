@@ -59,7 +59,6 @@ initial begin
 	// Read Data
 	u_i2c_master_top.start({dev_adr, 1'b1}         ); // (start with read)
 	u_i2c_master_top.byte (8'h00, 1'b1, 1'b0, rdata); // (read data and ack )
-	u_i2c_master_top.byte (8'h00, 1'b1, 1'b0, rdata); // (read data and ack )
 	u_i2c_master_top.byte (8'h00, 1'b1, 1'b1, rdata); // (read data and ack )
 	//u_i2c_master_top.stop (8'h00, 1'b1, 1'b0, rdata); // (read data and nack)
 

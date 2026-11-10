@@ -62,7 +62,7 @@ end
 always @(posedge clk or negedge rstb) begin
     if (!rstb)
         tx_rdata <= 8'b0;
-    else if (req)
+    else if (tx_ren)
         tx_rdata <= tx_rdata_in;
 end
 //=============================================================================
@@ -80,6 +80,30 @@ ass_i2c_slave_scl_counter u_scl_counter(
 	.cnt_scl(cnt_scl)
 );
 //=============================================================================
+// 수정 필요
+one_bit_cdc_cntl u_cdc_stop(
+    .clk	 (clk), 
+    .rstb	 (rstb),
+    .cntl_in (ack_out_req),
+    .ack_out (	),
+    .cntl_out(stop_sync)
+);
+
+one_bit_cdc_cntl u_cdc_stop(
+    .clk	 (clk), 
+    .rstb	 (rstb),
+    .cntl_in (stop),
+    .ack_out (ack_out_stop),
+    .cntl_out(stop_sync)
+);
+
+one_bit_cdc_cntl u_cdc_stop(
+    .clk	 (clk), 
+    .rstb	 (rstb),
+    .cntl_in (stop),
+    .ack_out (ack_out_stop),
+    .cntl_out(stop_sync)
+); //수정 필요//
 ass_i2c_slave_serdes_fsm #(.device_address(device_address)) u_serdes_fsm(
 	.clk	    (clk),  
 	.rstb	    (rstb), 

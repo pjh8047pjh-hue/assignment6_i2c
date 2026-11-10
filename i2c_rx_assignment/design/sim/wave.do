@@ -12,10 +12,11 @@ add wave -noupdate -radix hexadecimal /tb_rx/dut/stop_nack
 add wave -noupdate -radix hexadecimal /tb_rx/dut/rx_wen
 add wave -noupdate -radix hexadecimal /tb_rx/dut/rx_full
 add wave -noupdate -radix hexadecimal /tb_rx/dut/rx_wdata
-add wave -noupdate -radix hexadecimal /tb_rx/dut/tx_ren
-add wave -noupdate -radix hexadecimal /tb_rx/dut/tx_empty
-add wave -noupdate -radix hexadecimal /tb_rx/dut/tx_rdata
-add wave -noupdate -radix hexadecimal /tb_rx/dut/req
+add wave -noupdate -color Plum -radix hexadecimal /tb_rx/dut/tx_ren
+add wave -noupdate -color Plum -radix hexadecimal /tb_rx/dut/tx_empty
+add wave -noupdate -color Plum -radix hexadecimal /tb_rx/dut/tx_rdata
+add wave -noupdate -color Plum -radix hexadecimal /tb_rx/dut/u_pkg_dec/tx_wdata
+add wave -noupdate -color Plum -radix hexadecimal /tb_rx/dut/req
 add wave -noupdate -radix hexadecimal /tb_rx/dut/rx_ren
 add wave -noupdate -radix hexadecimal /tb_rx/dut/rx_empty
 add wave -noupdate -radix hexadecimal /tb_rx/dut/rx_rdata
@@ -32,7 +33,9 @@ add wave -noupdate -radix hexadecimal /tb_rx/dut/u_serdes/sda
 add wave -noupdate -radix hexadecimal /tb_rx/dut/u_serdes/rx_full
 add wave -noupdate -radix hexadecimal /tb_rx/dut/u_serdes/tx_empty
 add wave -noupdate -radix hexadecimal /tb_rx/dut/u_serdes/req
+add wave -noupdate -radix hexadecimal /tb_rx/dut/u_pkg_dec/tx_wen
 add wave -noupdate -radix hexadecimal /tb_rx/dut/u_serdes/tx_ren
+add wave -noupdate -radix hexadecimal /tb_rx/dut/u_serdes/tx_rdata
 add wave -noupdate -radix hexadecimal /tb_rx/dut/u_serdes/tx_rdata_in
 add wave -noupdate -radix hexadecimal /tb_rx/dut/u_serdes/start
 add wave -noupdate -radix hexadecimal /tb_rx/dut/u_serdes/stop
@@ -92,7 +95,7 @@ add wave -noupdate -radix hexadecimal /tb_rx/dut/u_tx_fifo/dout
 add wave -noupdate -radix hexadecimal /tb_rx/dut/u_tx_fifo/full
 add wave -noupdate -radix hexadecimal /tb_rx/dut/u_tx_fifo/empty
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {113405000 ps} 0}
+WaveRestoreCursors {{Cursor 1} {108575000 ps} 0}
 quietly wave cursor active 1
 configure wave -namecolwidth 406
 configure wave -valuecolwidth 100
@@ -108,4 +111,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ps
 update
-WaveRestoreZoom {113329305 ps} {113558381 ps}
+WaveRestoreZoom {46767836 ps} {176543789 ps}
